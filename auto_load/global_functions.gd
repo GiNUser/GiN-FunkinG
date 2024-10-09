@@ -115,3 +115,12 @@ func add_level_infos(data):
 				GlobalVaribles.level_infos[varible] = data[varible]
 		else:
 			GlobalVaribles.level_infos[varible] += data[varible]
+
+
+func create_last_frame(texture):
+	var texture_rect = TextureRect.new()
+	texture_rect.texture = texture
+	texture_rect.name = "last_frame"
+	texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	texture_rect.size = Vector2(1280, 720)
+	get_tree().root.add_child(texture_rect)
