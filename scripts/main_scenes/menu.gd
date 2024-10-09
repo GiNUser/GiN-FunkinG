@@ -19,7 +19,6 @@ func _ready():
 			add_child(START_SCREEN.instantiate())
 			$main_music.play()
 		"main":
-			$main/anim_player.play("show")
 			$main_music.play()
 		"story_mode":
 			add_child(STORY_MODE.instantiate())
