@@ -329,8 +329,9 @@ func get_cur_music():
 var smooth_score = 0
 var smooth_rate = 0
 func _process(delta):
+	var mod = clamp(delta * 14, 0, 0.99)
 	for capsule in $capsules.get_children():
-		capsule.position += (capsule.vec - capsule.position) * clamp(delta * 14, 0, 0.99)
+		capsule.position += (capsule.vec - capsule.position) * mod
 	
 	if animate_score:
 		spawn_score_data()
