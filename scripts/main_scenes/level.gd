@@ -161,12 +161,7 @@ func _input(_event): if state == 1:
 		SceneChanger.change_to("", "fade")
 	elif Input.is_action_just_pressed("cancel"):
 		state = 2
-		await RenderingServer.frame_post_draw
-		var texture_rect = TextureRect.new()
-		texture_rect.texture = ImageTexture.create_from_image(get_viewport().get_texture().get_image())
-		texture_rect.name = "last_frame"
-		texture_rect.size = DisplayServer.screen_get_size()
-		get_tree().root.add_child(texture_rect)
+		GlobalFunctions.create_last_frame(ImageTexture.create_from_image(get_viewport().get_texture().get_image()))
 		get_tree().change_scene_to_file("res://scenes/main_scenes/menu.scn")
 
 
