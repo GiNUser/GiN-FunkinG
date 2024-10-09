@@ -34,21 +34,12 @@ func _input(_event):
 			1:
 				$track.stop()
 				GlobalFunctions.clear_sounds()
-				GlobalFunctions.clear_level_infos()
 				GlobalFunctions.add_audio_effect(SOUND_MENU_CONFIRM)
 				if GlobalVaribles.story_info:
 					SceneChanger.change_to("scenes/main_scenes/menu")
-					GlobalVaribles.story_info = {}
 					return
 				
-				await RenderingServer.frame_post_draw
-				if get_viewport() == null:
-					return
-				var texture_rect = TextureRect.new()
-				texture_rect.texture = ImageTexture.create_from_image(get_viewport().get_texture().get_image())
-				texture_rect.name = "last_frame"
-				texture_rect.size = DisplayServer.screen_get_size()
-				get_tree().root.add_child(texture_rect)
+				GlobalFunctions.create_last_frame(ImageTexture.create_from_image(get_viewport().get_texture().get_image()))
 				get_tree().change_scene_to_file("res://scenes/main_scenes/menu.scn")
 	elif Input.is_action_just_pressed("cancel"):
 		unpause()
@@ -110,4 +101,4 @@ func spawn_btns(array):
 
 
 func _process(delta):
-	$container.position.y -= ($container.position.y - (-$container.get_child(cur_btn).position.y + 280)) * delta * 15
+	$container.position.y -= ($container.position.y - (-$container.get_child(cur_btn).position.y + 280)) * clamp(delta * 15, 0, 0.99)

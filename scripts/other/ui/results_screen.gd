@@ -87,28 +87,20 @@ func _ready():
 
 
 func _input(_event):
-	if Input.is_action_just_pressed("restart"):
+	if Input.is_action_just_pressed("accept"):
+		$music.stop()
+		GlobalFunctions.add_audio_effect(SOUND_MENU_CONFIRM)
+		if GlobalVaribles.story_info:
+			SceneChanger.change_to("scenes/main_scenes/menu")
+			return
+		GlobalFunctions.create_last_frame(ImageTexture.create_from_image(get_viewport().get_texture().get_image()))
+		get_tree().change_scene_to_file("res://scenes/main_scenes/menu.scn")
+	elif Input.is_action_just_pressed("restart"):
 		if GlobalVaribles.story_info:
 			GlobalVaribles.story_info.scenario = GlobalVaribles.story_info.full_scenario.duplicate()
 		GlobalFunctions.clear_level_infos()
 		GlobalFunctions.clear_sounds()
 		SceneChanger.change_to()
-	elif Input.is_action_just_pressed("accept"):
-		$music.stop()
-		GlobalVaribles.story_info = {}
-		GlobalFunctions.clear_level_infos()
-		GlobalFunctions.add_audio_effect(SOUND_MENU_CONFIRM)
-		
-		if GlobalVaribles.story_info:
-			SceneChanger.change_to("scenes/main_scenes/menu")
-			return
-		var texture_rect = TextureRect.new()
-		await RenderingServer.frame_post_draw
-		texture_rect.texture = ImageTexture.create_from_image(get_viewport().get_texture().get_image())
-		texture_rect.name = "last_frame"
-		texture_rect.size = DisplayServer.screen_get_size()
-		get_tree().root.add_child(texture_rect)
-		get_tree().change_scene_to_file("res://scenes/main_scenes/menu.scn")
 
 
 func _process(delta):
